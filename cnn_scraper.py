@@ -1,17 +1,8 @@
-import requests
-from bs4 import BeautifulSoup
+from cnn_scrape_helper import get_top_news_link, HTTPConnectionError
 
-from cnn_scrape_helper import getTopNews
+try:
+    top_news_links = get_top_news_link('US')
+except HTTPConnectionError as e:
+    print(e)
 
-
-URL = 'https://www.cnn.com/us'
-
-response = requests.get(URL)
-if response.status_code == 200:
-    print('successfully connected to', URL)
-    soup = BeautifulSoup(response.content, 'html.parser')
-    top_news = getTopNews(soup)
-    print(top_news)
-else:
-    print('failed to connect to', URL)
-    print('status code: ', response.status_code)
+print(top_news_links)
