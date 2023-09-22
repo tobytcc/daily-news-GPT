@@ -5,4 +5,5 @@ try:
 except HTTPConnectionError as e:
     print(e)
 
-print(top_news_links)
+for news in top_news_links:
+    print(news)

@@ -20,7 +20,7 @@ def get_top_news_link(category: str, limit: int=3) -> list[tuple[str, str]]:
         print('successfully connected to', URL)
         soup = BeautifulSoup(response.content, 'html.parser')
 
-        extracted_headlines = soup.find_all(attrs={"data-editable": 'headline'})
+        extracted_headlines = soup.find_all(attrs=section_details['attrs'])
 
         headlines_obtained = 0
         for headline in extracted_headlines:

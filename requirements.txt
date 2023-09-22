@@ -26,6 +26,11 @@ requests==2.31.0
 six==1.16.0
 soupsieve==2.5
 tomlkit==0.12.1
+types-beautifulsoup4==4.12.0.6
+types-html5lib==1.1.11.15
+types-PyYAML==6.0.12.11
+types-requests==2.31.0.3
+types-urllib3==1.26.25.14
 typing_extensions==4.8.0
 tzdata==2023.3
 urllib3==2.0.5
