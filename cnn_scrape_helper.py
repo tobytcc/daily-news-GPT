@@ -1,20 +1,25 @@
 from bs4 import BeautifulSoup
 
-def getTopNews(soup: BeautifulSoup) -> list[str]:
+import yaml
 
-    top_news_parents = soup.find_all('div',
-                                attrs = {
-                                    'class': ' '.join(['container__title', 'container_lead-plus-headlines__title',
-                                              'container__title--emphatic', 'hover', 'container__title--emphatic-size-l2']),
-                                    'data-editable': 'titleLink'
-                                    })
+def getTopNews(soup: BeautifulSoup, category: str = "", limit: int=3) -> list[tuple[str, str]]:
 
-    titles = []
-    for top_news_parent in top_news_parents:
-        if top_news_parent:
-            top_news = top_news_parent.find_all(name= 'h2')
+    extracted_headlines = soup.find_all(attrs={"data-editable": 'headline'})
 
-            for news in top_news: #likely only 1
-                titles.append(news.text.strip())
+    headlines_obtained = 0
+    headline_list: list[tuple[str,str]] = []
+    for headline in extracted_headlines:
+        if headlines_obtained >= limit:
+            return headline_list
+        #all headlines seem to have href attribute as its 3rd level parents
+        parent_1 = headline.find_parent()
+        parent_2 = parent_1.find_parent() if parent_1 else None
+        parent_3 = parent_2.find_parent() if parent_2 else None
 
-    return titles
+        if parent_3 and parent_3.name == 'a' and 'href' in parent_3.attrs:
+            href = parent_3.attrs['href']
+            headline_list.append((headline.text.strip(), href))
+
+            headlines_obtained += 1
+
+    return headline_list
