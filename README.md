@@ -17,4 +17,3 @@ Potential Problems:
 Further Improvements:
 - Allow users to pick type of news - Asia, Technology, etc.
 - Work on other types of live scraping (e.g. scraping Steam for fresh games/deals/reviews)
-

@@ -1,15 +1,17 @@
-from cnn_scrape_helper import get_top_news_link, get_article_text, HTTPConnectionError
+"""
+this module contains the main logic for scraping cnn
+test module, will integrate to other module later
+"""
 
-try:
-    top_news_links = get_top_news_link("us", limit=3)
-    for news_item in top_news_links:
-        print(news_item["path"])
+from cnn_helper import get_top_news_link, get_article_text
 
-    if top_news_links:
-        article_path = top_news_links[0]["path"]
-        paragraphs = get_article_text(article_path)
+top_news_links = get_top_news_link("us", limit=3)
+for news_item in top_news_links:
+    print(news_item["path"])
 
-    print(paragraphs)
+if top_news_links:
+    article_path = top_news_links[0]["path"]
+    paragraphs = get_article_text(article_path)
 
-except HTTPConnectionError as error:
-    print(error)
+if paragraphs:
+    print(paragraphs[0])
