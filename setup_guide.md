@@ -50,9 +50,9 @@ To get started with the project, please follow the steps below:
     ```
 
 6. **Setup Pre-commit:**\
-    I think it will be best to use pre-commit hooks to ensure code quality. It checks for simple stuff like file formatting. Though there are 2 major pre-commit hooks I've decided to use: mypy and pylint
-    mypy: static type checker
-    pylint: good code practice checker, e.g. variable names or function/class/module docstrings
+    I think it will be best to use pre-commit hooks to ensure code quality. It checks for simple stuff like file formatting. Though there are 2 major pre-commit hooks I've decided to use: mypy and pylint\
+    mypy: static type checker\
+    pylint: good code practice checker, e.g. variable names or function, class, and module docstrings\
 
     To set it up:
     ```bash
