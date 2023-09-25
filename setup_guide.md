@@ -7,7 +7,14 @@ To get started with the project, please follow the steps below:
 
     Install Rust by visiting https://rustup.rs/ and following the instructions.
 
-2. **Setup a Virtual Environment:**  
+3. **Clone the Repository:**  
+    If you haven't already, clone the repository to your local machine and go into it
+    ```bash
+    git clone https://github.com/tobytcc/daily-news-GPT.git
+    cd daily-news-GPT
+    ```
+
+3. **Setup a Virtual Environment:**  
     It's a good practice to create a virtual environment for your Python projects to ensure dependencies do not interfere with each other.
 
    - **For macOS/Linux:**
@@ -24,12 +31,6 @@ To get started with the project, please follow the steps below:
 
      After this, next time you work with the project, only the second line is necessary for both windows and mac.  
      (```source env/bin activate``` and ```env/Scripts/activate```)
-
-3. **Clone the Repository:**  
-    If you haven't already, clone the repository to your local machine.
-    ```bash
-    git clone https://github.com/tobytcc/daily-news-GPT.git
-    ```
 
 4. **Checkout to the Appropriate Branch:**  
     If you're planning to view the changes in my branch in your local env:
