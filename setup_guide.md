@@ -48,7 +48,7 @@ To get started with the project, please follow the steps below:
     ```
     or on individual files:
     ```
-    pre-commit run --files <insert filepath1> <insert optional filepath2>
+    pre-commit run --files <insert filepath1> <insert optional filepath2> ...
     ```
 
     Note: If you  need to bypass the pre-commit checks when committing, you can use the --no-verify flag with your git commit command:
