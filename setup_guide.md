@@ -14,47 +14,47 @@ To get started with the project, please follow the steps below:
     ```
 
 3. **Checkout to the Appropriate Branch:**
-If you're planning to view the changes in my branch in your local env:
-```
-git pull origin kevin_webscraping
-git checkout -b [your_new_branch_name]
-```
+    If you're planning to view the changes in my branch in your local env:
+    ```
+    git pull origin kevin_webscraping
+    git checkout -b [your_new_branch_name]
+    ```
 
-Alternatively, if the PR to the master has been approved and merged, you can pull the latest changes from the master:
-```
-git pull origin master
-git checkout -b [your_new_branch_name]
-```
+    Alternatively, if the PR to the master has been approved and merged, you can pull the latest changes from the master:
+    ```
+    git pull origin master
+    git checkout -b [your_new_branch_name]
+    ```
 
 4. **Install Python Dependencies:**
-Navigate to the project directory and install the required Python packages.
-```
-pip install -r requirements.txt
-```
+    Navigate to the project directory and install the required Python packages.
+    ```
+    pip install -r requirements.txt
+    ```
 
 5. **Setup Pre-commit:**
-I think it will be best to use pre-commit hooks to ensure code quality. It checks for simple stuff like file formatting. Though there are 2 major pre-commit hooks I've decided to use: mypy and pylint
-mypy: static type checker
-pylint: good code practice checker, e.g. variable names or function/class/module docstrings
+    I think it will be best to use pre-commit hooks to ensure code quality. It checks for simple stuff like file formatting. Though there are 2 major pre-commit hooks I've decided to use: mypy and pylint
+    mypy: static type checker
+    pylint: good code practice checker, e.g. variable names or function/class/module docstrings
 
-To set it up:
-```
-pre-commit install
-```
+    To set it up:
+    ```
+    pre-commit install
+    ```
 
-To run your code amongst all of these checks, simply do:
-```
-pre-commit run --all-files
-```
-or on individual files:
-```
-pre-commit run --files <insert filepath1> <insert optional filepath2>
-```
+    To run your code amongst all of these checks, simply do:
+    ```
+    pre-commit run --all-files
+    ```
+    or on individual files:
+    ```
+    pre-commit run --files <insert filepath1> <insert optional filepath2>
+    ```
 
-Note: If you  need to bypass the pre-commit checks when committing, you can use the --no-verify flag with your git commit command:
-```
-git commit -m "comments" --no-verify
-```
-this will commit while ignoring pre-commit checks.
+    Note: If you  need to bypass the pre-commit checks when committing, you can use the --no-verify flag with your git commit command:
+    ```
+    git commit -m "comments" --no-verify
+    ```
+    this will commit while ignoring pre-commit checks.
 
 This guide is made with help of GPT
