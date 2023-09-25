@@ -8,9 +8,10 @@ import yaml
 from scrape_helper import make_request
 
 
-def get_top_news_link(category: str, limit: int = 3) -> list[dict[str, str]]:
+def get_top_news(category: str, limit: int = 3) -> list[dict[str, str]]:
     """
-    returns a list of top headlines given the desired category
+    returns a list of top headlines title and paths given the desired category
+    in a dictionary format.
 
     category: category of news to to scrape headlines from
     limit: limit of headlines, default 3
