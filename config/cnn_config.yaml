@@ -44,4 +44,4 @@ sections:
 
 article:
   attrs:
-    class: article__content
+    class: "article__content"

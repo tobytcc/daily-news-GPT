@@ -1,0 +1,7 @@
+base_url: https://www.bbc.com/
+
+sections:
+  news:
+    url: https://www.bbc.com/news
+    attrs:
+      class: "gs-c-promo-heading__title"

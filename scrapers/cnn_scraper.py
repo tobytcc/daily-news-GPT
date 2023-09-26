@@ -9,6 +9,8 @@ import yaml
 from scrapers.scrape_helper import make_request
 from models.data_models import Article
 
+CONFIG_FILE = "config/cnn_config.yaml"
+
 
 def get_top_news(category: str, limit: int = 3) -> list[dict[str, str]]:
     """
@@ -23,7 +25,7 @@ def get_top_news(category: str, limit: int = 3) -> list[dict[str, str]]:
     a hyperlink reference
     """
 
-    with open("config/cnn_config.yaml", "r", encoding="UTF-8") as config_file:
+    with open(CONFIG_FILE, "r", encoding="UTF-8") as config_file:
         cnn_config = yaml.safe_load(config_file)
 
     section_details = cnn_config["sections"][category]
@@ -62,7 +64,7 @@ def get_article_text(path: str) -> list[str]:
     the scraping logic is that it seems like all pargraphs from the articles come
     from paragraph attributes with parent of class 'article__cnontent'.
     """
-    with open("config/cnn_config.yaml", "r", encoding="UTF-8") as config_file:
+    with open(CONFIG_FILE, "r", encoding="UTF-8") as config_file:
         cnn_config = yaml.safe_load(config_file)
 
     base_url = cnn_config["base_url"]
