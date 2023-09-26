@@ -1,5 +1,6 @@
 """
 this module runs the facebook/bart-large-cnn text summarizer on articles
+IDEAL: run codebase from this file
 """
 
 # from transformers import pipeline
