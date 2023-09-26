@@ -15,7 +15,7 @@ class HTTPConnectionError(Exception):
 
 def make_request(url: str) -> BeautifulSoup:
     """
-    helper function for the module to make a request and return a bs4 obj.
+    helper function for all scrapers to make a request and return a bs4 obj.
     if status_code != 200, raise connection error
     """
     response = requests.get(url, timeout=5)
