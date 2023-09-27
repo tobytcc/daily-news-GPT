@@ -5,3 +5,8 @@ sections:
     url: https://www.bbc.com/news
     attrs:
       class: "gs-c-promo-heading__title"
+
+
+article:
+  attrs:
+    data-component: "text-block"
