@@ -1,0 +1,14 @@
+base_url: https://abcnews.go.com/
+
+sections:
+  us:
+    url: https://abcnews.go.com/US
+    attrs:
+      class: "News__title"
+
+
+article:
+  attrs:
+    class: "Ekqk nlgH yuUa MvWX TjIX aGjv ebVH"
+    class: "Ekqk nlgH yuUa MvWX lqtk aGjv"
+    class: "Ekqk nlgH yuUa MvWX lqtk sUzS"

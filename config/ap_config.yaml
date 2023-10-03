@@ -1,0 +1,12 @@
+base_url: https://apnews.com/article/
+
+sections:
+  us:
+    url: https://apnews.com/us-news
+    attrs:
+      class: "PagePromoContentIcons-text"
+
+  world:
+    url: https://apnews.com/world-news
+    attrs:
+      class: "PagePromoContentIcons-text"
