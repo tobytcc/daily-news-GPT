@@ -90,7 +90,7 @@ def get_article_text(path: str) -> list[str]:
     return paragraph_list
 
 
-def get_articles(cat: str, subcat: Union[str, None], limit: int = 3) -> list[Article]:
+def get_articles(cat: str, limit: int = 3) -> list[Article]:
     """
     returns a list of Article objects storing path, title, and paragraph texts from the
     given category, with length no more than limit.

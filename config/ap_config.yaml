@@ -10,3 +10,73 @@ sections:
     url: https://apnews.com/world-news
     attrs:
       class: "PagePromoContentIcons-text"
+
+  politics:
+    url: https://apnews.com/politics
+    attrs:
+      class: "PagePromoContentIcons-text"
+
+  entertainment:
+    url: https://apnews.com/entertainment
+    attrs:
+      class: "PagePromoContentIcons-text"
+
+  sports:
+    url: https://apnews.com/sports
+    attrs:
+      class: "PagePromoContentIcons-text"
+
+  business:
+    url: https://apnews.com/business
+    attrs:
+      class: "PagePromoContentIcons-text"
+
+  science:
+    url: https://apnews.com/science
+    attrs:
+      class: "PagePromoContentIcons-text"
+
+  fact-check:
+    url: https://apnews.com/ap-fact-check
+    attrs:
+      class: "PagePromoContentIcons-text"
+
+  climate:
+    url: https://apnews.com/climate-and-environment
+    attrs:
+      class: "PagePromoContentIcons-text"
+
+  health:
+    url: https://apnews.com/health
+    attrs:
+      class: "PagePromoContentIcons-text"
+
+  oddities:
+    url: https://apnews.com/entertainment
+    attrs:
+      class: "PagePromoContentIcons-text"
+
+  tech:
+    url: https://apnews.com/technology
+    attrs:
+      class: "PagePromoContentIcons-text"
+
+  AI:
+    url: https://apnews.com/hub/artificial-intelligence
+    attrs:
+      class: "PagePromoContentIcons-text"
+
+  social-media:
+    url: https://apnews.com/hub/social-media
+    attrs:
+      class: "PagePromoContentIcons-text"
+
+  lifestyle:
+    url: https://apnews.com/lifestyle
+    attrs:
+      class: "PagePromoContentIcons-text"
+
+  religion:
+    url: https://apnews.com/religion
+    attrs:
+      class: "PagePromoContentIcons-text"
