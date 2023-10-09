@@ -6,6 +6,42 @@ sections:
     attrs:
       class: "News__title"
 
+  international:
+    url: https://abcnews.go.com/International
+    attrs:
+      class: "News__title"
+
+  business:
+    url: https://abcnews.go.com/Business
+    attrs:
+      class: "News__title"
+
+  lifestyle:
+    url: https://abcnews.go.com/Lifestyle
+    attrs:
+      class: "News__title"
+
+  politics:
+    url: https://abcnews.go.com/Politics
+    attrs:
+      class: "News__title"
+
+  entertainment:
+    url: https://abcnews.go.com/Entertainment
+    attrs:
+      class: "News__title"
+
+  technology:
+    url: https://abcnews.go.com/Technology
+    attrs:
+      class: "News__title"
+
+  health:
+    url: https://abcnews.go.com/Health
+    attrs:
+      class: "News__title"
+
+
 
 article:
   attrs:

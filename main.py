@@ -9,7 +9,7 @@ from scrapers.bbc_scraper import get_articles as bbc_get_articles
 from scrapers.abc_scraper import get_articles as abc_get_articles
 from scrapers.ap_scraper import get_articles as ap_get_articles
 
-test_article = ap_get_articles("AI", 3)
+test_article = abc_get_articles("us", 3)
 
 for x in test_article:
     print(x)

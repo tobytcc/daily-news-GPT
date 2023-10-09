@@ -15,7 +15,7 @@ from models.data_models import Article
 CONFIG_FILE = "config/abc_config.yaml"
 
 
-def get_top_news(cat: str, subcat: Union[str, None], limit: int = 3) -> list[dict[str, str]]:
+def get_top_news(cat: str, limit: int = 3) -> list[dict[str, str]]:
     """
     returns a list of top headlines title and paths given the desired category
     in a dictionary format.
@@ -28,8 +28,6 @@ def get_top_news(cat: str, subcat: Union[str, None], limit: int = 3) -> list[dic
         abc_config = yaml.safe_load(config_file)
 
     section_details = abc_config["sections"][cat]
-    if isinstance(subcat, str):
-        section_details = section_details[subcat]
 
     url = section_details["url"]
 
@@ -39,6 +37,7 @@ def get_top_news(cat: str, subcat: Union[str, None], limit: int = 3) -> list[dic
     extracts = soup.find_all(attrs=section_details["attrs"])
 
     headlines_obtained = 0
+    parent_class = ["AnchorLink News News--xl, AnchorLink News News--sm"]
     for extract in extracts:
         if headlines_obtained >= limit:
             return headline_list
@@ -47,8 +46,8 @@ def get_top_news(cat: str, subcat: Union[str, None], limit: int = 3) -> list[dic
         parent = extract.find_parent("a", class_="AnchorLink News News--xl")
 
         # two types of acceptable parents
-        if parent == None:
-            parent = extract.find_parent("a", class_="AnchorLink News News--sm")
+        if parent is None:
+            parent = extract.find_parent("a")
 
         if parent and "href" in parent.attrs:
             href = parent.attrs["href"]
@@ -73,7 +72,7 @@ def get_article_text(path: str) -> list[str]:
     base_url = abc_config["base_url"]
     url = urljoin(base_url, path)
 
-    article_config = abc_config["article"]
+    # article_config = abc_config["article"]
 
     paragraph_list: list[str] = []
 
@@ -91,7 +90,7 @@ def get_article_text(path: str) -> list[str]:
     return paragraph_list
 
 
-def get_articles(cat: str, subcat: Union[str, None], limit: int = 3) -> list[Article]:
+def get_articles(cat: str, limit: int = 3) -> list[Article]:
     """
     returns a list of Article objects storing path, title, and paragraph texts from the
     given category, with length no more than limit.
@@ -101,9 +100,12 @@ def get_articles(cat: str, subcat: Union[str, None], limit: int = 3) -> list[Art
     """
     article_list = []
 
-    top_news_list = get_top_news(cat, subcat, limit)
+    top_news_list = get_top_news(cat, limit)
     for news in top_news_list:
         paragraphs = get_article_text(news["path"])
         article_list.append(Article(path=news["path"], title=news["title"], text=paragraphs))
 
     return article_list
+
+
+# TODO: tech, weather, and sports sections have different structures - possible to add in later
