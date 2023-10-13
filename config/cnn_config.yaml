@@ -1,46 +1,20 @@
 base_url: https://www.cnn.com/
 
 sections:
-  us:
-    url: https://www.cnn.com/us
-    attrs:
-      data-editable: "headline"
-  world:
-    url: https://www.cnn.com/world
-    attrs:
-      data-editable: "headline"
-  politics:
-    url: https://www.cnn.com/politics
-    attrs:
-      data-editable: "headline"
-  business:
-    url: https://www.cnn.com/business
-    attrs:
-      data-editable: "headline"
-  opinion:
-    url: https://www.cnn.com/opinion
-    attrs:
-      data-editable: "headline"
-  health:
-    url: https://www.cnn.com/health
-    attrs:
-      data-editable: "headline"
-  entertainment:
-    url: https://www.cnn.com/entertainment
-    attrs:
-      data-editable: "headline"
-  style:
-    url: https://www.cnn.com/style
-    attrs:
-      data-editable: "headline"
-  travel:
-    url: https://www.cnn.com/travel
-    attrs:
-      data-editable: "headline"
-  sports:
-    url: https://www.cnn.com/sports
-    attrs:
-      data-editable: "headline"
+  attrs:
+    data-editable: "headline"
+
+categories:
+  us: null
+  world: null
+  politics: null
+  business: null
+  opinion: null
+  health: null
+  entertainment: null
+  style: null
+  travel: null
+  sports: null
 
 article:
   attrs:

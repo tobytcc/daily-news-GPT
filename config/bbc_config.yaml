@@ -1,11 +1,16 @@
 base_url: https://www.bbc.com/
 
 sections:
-  news:
-    url: https://www.bbc.com/news
-    attrs:
-      class: "gs-c-promo-heading__title"
+  attrs:
+    class: "gs-c-promo-heading__title"
 
+categories:
+  news:
+    world: null
+    us_and_canada: null
+    uk: null
+    business: null
+    tech: null
 
 article:
   attrs:

@@ -1,102 +1,44 @@
-"""
-this module contains helper functions to scrape CNN
-"""
+"""cnn scraper class"""
+from bs4 import BeautifulSoup, Tag
 
-from urllib.parse import urljoin
-from bs4 import Tag
-import yaml
-
-from scrapers.scrape_helper import make_request
-from models.data_models import Article
-
-CONFIG_FILE = "config/cnn_config.yaml"
+from scrapers.scrapers import ArticleScraper
 
 
-def get_top_news(category: str, limit: int = 3) -> list[dict[str, str]]:
-    """
-    returns a list of top headlines title and paths given the desired category
-    in a dictionary format.
+class CNNArticleScraper(ArticleScraper):
+    """cnn scraper derived class"""
 
-    category: category of news to to scrape headlines from
-    limit: limit of headlines, default 3
+    CONFIG_FILE = "config/cnn_config.yaml"
+    SITE_NAME = "CNN"
 
-    the scraping logic is that it seems like the extract is a headline
-    iff the attr data-editable is headline, and its 3rd level parent is
-    a hyperlink reference
-    """
+    def _get_top_news_from_soup(
+        self, section_soup: BeautifulSoup, limit: int
+    ) -> list[dict[str, str]]:
+        # pylint: disable = duplicate-code
+        extracts = section_soup.find_all(attrs=self.sections_config["attrs"])
 
-    with open(CONFIG_FILE, "r", encoding="UTF-8") as config_file:
-        cnn_config = yaml.safe_load(config_file)
+        headline_list: list[dict[str, str]] = []
+        for extract in extracts:
+            if len(headline_list) >= limit:
+                return headline_list
 
-    section_details = cnn_config["sections"][category]
-    url = section_details["url"]
+            # all headlines seem to have href attribute as its 3rd level parents
+            parent = extract.find_parent()
+            parent = parent.find_parent() if parent else None
+            parent = parent.find_parent() if parent else None
 
-    headline_list: list[dict[str, str]] = []
+            if parent and parent.name == "a" and "href" in parent.attrs:
+                href = parent.attrs["href"]
+                headline_list.append({"title": extract.text.strip(), "path": href})
 
-    soup = make_request(url)
-    extracts = soup.find_all(attrs=section_details["attrs"])
+        return headline_list
 
-    headlines_obtained = 0
-    for extract in extracts:
-        if headlines_obtained >= limit:
-            return headline_list
+    def _get_paragraphs_from_soup(
+        self, article_soup: BeautifulSoup, attrs_dict: dict[str, str]
+    ) -> list[str]:
+        paragraph_list = []
 
-        # all headlines seem to have href attribute as its 3rd level parents
-        parent = extract.find_parent()
-        parent = parent.find_parent() if parent else None
-        parent = parent.find_parent() if parent else None
+        article_content = article_soup.find(name="div", attrs=attrs_dict)
+        if isinstance(article_content, Tag):
+            paragraph_list = [p_obj.text.strip() for p_obj in article_content.find_all(name="p")]
 
-        if parent and parent.name == "a" and "href" in parent.attrs:
-            href = parent.attrs["href"]
-            headline_list.append({"title": extract.text.strip(), "path": href})
-
-            headlines_obtained += 1
-
-    return headline_list
-
-
-def get_article_text(path: str) -> list[str]:
-    """
-    given a hyperlink to a cnn article, return the paragraphs as list.
-
-    path: path to append to domain https://www.cnn.com/ to access article
-
-    the scraping logic is that it seems like all pargraphs from the articles come
-    from paragraph attributes with parent of class 'article__cnontent'.
-    """
-    with open(CONFIG_FILE, "r", encoding="UTF-8") as config_file:
-        cnn_config = yaml.safe_load(config_file)
-
-    base_url = cnn_config["base_url"]
-    url = urljoin(base_url, path)
-
-    article_config = cnn_config["article"]
-
-    paragraph_list: list[str] = []
-
-    soup = make_request(url)
-
-    article_content = soup.find(name="div", attrs=article_config["attrs"])
-
-    if isinstance(article_content, Tag):
-        paragraph_list = [p_obj.text.strip() for p_obj in article_content.find_all(name="p")]
-
-    return paragraph_list
-
-
-def get_articles(category: str, limit: int = 3) -> list[Article]:
-    """
-    returns a list of Article objects storing path, title, and paragraph texts from the
-    given category, with length no more than limit.
-
-    category: category within cnn to scrape articles from
-    limit: the maximum number of articles to scrape
-    """
-    article_list = []
-
-    top_news_list = get_top_news(category, limit)
-    for news in top_news_list:
-        paragraphs = get_article_text(news["path"])
-        article_list.append(Article(path=news["path"], title=news["title"], text=paragraphs))
-
-    return article_list
+        return paragraph_list
