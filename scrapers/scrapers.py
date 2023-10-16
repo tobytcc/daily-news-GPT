@@ -32,6 +32,7 @@ class ArticleScraper(ABC):
         self.sections_config = self._get_section_config()
         self.article_config = self._get_article_config()
         self.category_config = self._get_categories_config()
+        self.aliases = self._get_alias_dict()
         self.base_url = self._get_base_url()
 
     def _load_config(self) -> dict[str, Any]:
@@ -57,8 +58,19 @@ class ArticleScraper(ABC):
         return cast(dict[str, Any], self._config["article"])
 
     def _get_categories_config(self) -> dict[str, Any]:
-        """returns article configuration dict for given website"""
+        """returns categories configuration dict for given website"""
         return cast(dict[str, Any], self._config["categories"])
+
+    def _get_alias_dict(self) -> dict[str, Any]:
+        """returns alias dict for given website"""
+        return cast(dict[str, str], self._config["aliases"])
+
+    def _resolve_category_alias(self, category: list[str]) -> list[str]:
+        """converts alias to the appropriate categories to access website"""
+        if self.aliases is None:
+            return category
+
+        return [self.aliases.get(cat, cat) for cat in category]
 
     def _get_top_news(self, category: list[str], limit: int) -> list[dict[str, str]]:
         """
@@ -69,16 +81,31 @@ class ArticleScraper(ABC):
         subcategories exist, joined by "/"
         limit: limit of headlines, default 3
         """
+        category = self._resolve_category_alias(category)
+
         if not self.is_valid_category(category):
             raise ValueError(f"invalid category: '{'/'.join(category)}' in site: {self.SITE_NAME}")
 
         url = self.base_url
         for cat in category:
+            if not cat.endswith("/"):
+                cat += "/"
             url = urljoin(url, cat)
 
         soup = make_request(url)
 
         return self._get_top_news_from_soup(soup, limit)
+
+    # def _get_top_news_from_soup(
+    #     self, section_soup: BeautifulSoup, limit: int
+    # ) -> list[dict[str, str]]:
+    #     """
+    #     this function could be overwritten if a website structure involves
+    #     something other than a .find_all to get top headlines
+    #     """
+    #     extracts = section_soup.find_all(attrs=self.sections_config["attrs"])
+    #     headline_list: list[dict[str, str]] = []
+    #     for extract in extracts:
 
     def _get_article_text(self, path: str) -> list[str]:
         """
@@ -89,7 +116,7 @@ class ArticleScraper(ABC):
 
         soup = make_request(url)
 
-        return self._get_paragraphs_from_soup(soup, self.article_config["attrs"])
+        return self._get_paragraphs_from_soup(soup)
 
     def is_valid_category(self, category: list[str]) -> bool:
         """
@@ -128,8 +155,6 @@ class ArticleScraper(ABC):
         raise NotImplementedError("article specific scraping logic not defined")
 
     @abstractmethod
-    def _get_paragraphs_from_soup(
-        self, article_soup: BeautifulSoup, attrs_dict: dict[str, str]
-    ) -> list[str]:
+    def _get_paragraphs_from_soup(self, article_soup: BeautifulSoup) -> list[str]:
         """extract paragraph text using specific scraping logic for that website"""
         raise NotImplementedError("article specific scraping logic not defined")

@@ -1,108 +1,66 @@
 """
-this module contains helper functions to scrape BBC
+this module contains helper functions to scrape AP
 """
 
-from typing import Union
-from urllib.parse import urljoin
-from bs4 import Tag
+from bs4 import BeautifulSoup, Tag
 
-import yaml
-
-from scrapers.scrape_helper import make_request
-
-from models.data_models import Article
-
-CONFIG_FILE = "config/ap_config.yaml"
+from scrapers.scrapers import ArticleScraper
 
 
-def get_top_news(cat: str, subcat: Union[str, None], limit: int = 3) -> list[dict[str, str]]:
-    """
-    returns a list of top headlines title and paths given the desired category
-    in a dictionary format.
+class APArticleScraper(ArticleScraper):
+    """bbc scraper derived class"""
 
-    category: category of news to to scrape headlines from
-    limit: limit of headlines, default 3
-    """
+    CONFIG_FILE = "config/ap_config.yaml"
+    SITE_NAME = "AP"
 
-    with open(CONFIG_FILE, "r", encoding="UTF-8") as config_file:
-        ap_config = yaml.safe_load(config_file)
+    def is_valid_category(self, category: list[str]) -> bool:
+        """
+        special case, 'hub' is not a valid url extension
+        """
+        if category == ["hub"]:  # special case
+            return False
 
-    section_details = ap_config["sections"][cat]
-    if isinstance(subcat, str):
-        section_details = section_details[subcat]
+        return super().is_valid_category(category)
 
-    url = section_details["url"]
+    def _get_top_news_from_soup(
+        self, section_soup: BeautifulSoup, limit: int
+    ) -> list[dict[str, str]]:
+        extracts = section_soup.find_all(attrs=self.sections_config["attrs"])
 
-    headline_list: list[dict[str, str]] = []
+        headline_list: list[dict[str, str]] = []
+        for extract in extracts:
+            if len(headline_list) >= limit:
+                return headline_list
 
-    soup = make_request(url)
-    extracts = soup.find_all(attrs=section_details["attrs"])
+            # seem to have href attribute as its 1st level parents
+            parent = extract.find_parent()
 
-    headlines_obtained = 0
-    for extract in extracts:
-        if headlines_obtained >= limit:
-            return headline_list
+            # need to filter out the "trending" articles on top of webpage
+            grand_grandparent = parent.find_parent("div", class_="PagePromo-title").find_parent(
+                "div", class_="PagePromo-content"
+            )
 
-        # seem to have href attribute as its 1st level parents
-        parent = extract.find_parent()
+            if parent and grand_grandparent and "href" in parent.attrs:
+                href = parent.attrs["href"]
 
-        # need to filter out the "trending" articles on top of webpage
-        grand_grandparent = parent.find_parent("div", class_="PagePromo-title").find_parent(
-            "div", class_="PagePromo-content"
-        )
+                headline = {"title": extract.text.strip(), "path": href}
+                if headline not in headline_list:
+                    headline_list.append(headline)
 
-        if parent and grand_grandparent and "href" in parent.attrs:
-            href = parent.attrs["href"]
+        return headline_list
 
-            headline = {"title": extract.text.strip(), "path": href}
-            if headline not in headline_list:
-                headline_list.append(headline)
-                headlines_obtained += 1
+    def _get_paragraphs_from_soup(self, article_soup: BeautifulSoup) -> list[str]:
+        """
+        defaultext
+        """
+        article_content = article_soup.find(name="div", attrs=self.article_config["attrs"])
 
-    return headline_list
+        paragraph_list = []
+        if isinstance(article_content, Tag):
+            article_text_blocks = article_content.find_all(name="p")
 
+            for text_block in article_text_blocks:
+                if isinstance(text_block, Tag):
+                    paragraph_list.append(text_block.text.strip())
 
-def get_article_text(path: str) -> list[str]:
-    """
-    given a hyperlink to a AP article, return the paragraphs as list.
-
-    path: path to append to domain https://apnews.com/article/ to access article
-    """
-    with open(CONFIG_FILE, "r", encoding="UTF-8") as config_file:
-        ap_config = yaml.safe_load(config_file)
-
-    base_url = ap_config["base_url"]
-    url = urljoin(base_url, path)
-
-    paragraph_list: list[str] = []
-
-    soup = make_request(url)
-
-    article_content = soup.find(name="div", attrs={"class": "RichTextStoryBody RichTextBody"})
-
-    if isinstance(article_content, Tag):
-        article_text_blocks = article_content.find_all(name="p")
-
-        for text_block in article_text_blocks:
-            if isinstance(text_block, Tag):
-                paragraph_list.append(text_block.text.strip())
-
-    return paragraph_list
-
-
-def get_articles(cat: str, subcat: Union[str, None], limit: int = 3) -> list[Article]:
-    """
-    returns a list of Article objects storing path, title, and paragraph texts from the
-    given category, with length no more than limit.
-
-    category: category within cnn to scrape articles from
-    limit: the maximum number of articles to scrape
-    """
-    article_list = []
-
-    top_news_list = get_top_news(cat, subcat, limit)
-    for news in top_news_list:
-        paragraphs = get_article_text(news["path"])
-        article_list.append(Article(path=news["path"], title=news["title"], text=paragraphs))
-
-    return article_list
+        return paragraph_list

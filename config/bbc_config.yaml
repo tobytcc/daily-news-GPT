@@ -6,11 +6,23 @@ sections:
 
 categories:
   news:
-    world: null
-    us_and_canada: null
+    world:
+        us_and_canada: null
+    world-60525350: null #war in ukraine
+    science-environment-56837908: null #climate
     uk: null
     business: null
-    tech: null
+    technology: null
+    entertainment_and_arts: null
+    health: null
+
+aliases:
+  ukraine_war: world-60525350
+  climate: science-environment-56837908
+  tech: technology
+  entertainment: entertainment_and_arts
+  arts: entertainment_and_arts
+  science: science_and_environment
 
 article:
   attrs:

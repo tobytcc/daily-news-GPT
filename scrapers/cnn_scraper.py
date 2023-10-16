@@ -13,7 +13,6 @@ class CNNArticleScraper(ArticleScraper):
     def _get_top_news_from_soup(
         self, section_soup: BeautifulSoup, limit: int
     ) -> list[dict[str, str]]:
-        # pylint: disable = duplicate-code
         extracts = section_soup.find_all(attrs=self.sections_config["attrs"])
 
         headline_list: list[dict[str, str]] = []
@@ -32,12 +31,10 @@ class CNNArticleScraper(ArticleScraper):
 
         return headline_list
 
-    def _get_paragraphs_from_soup(
-        self, article_soup: BeautifulSoup, attrs_dict: dict[str, str]
-    ) -> list[str]:
+    def _get_paragraphs_from_soup(self, article_soup: BeautifulSoup) -> list[str]:
         paragraph_list = []
 
-        article_content = article_soup.find(name="div", attrs=attrs_dict)
+        article_content = article_soup.find(name="div", attrs=self.article_config["attrs"])
         if isinstance(article_content, Tag):
             paragraph_list = [p_obj.text.strip() for p_obj in article_content.find_all(name="p")]
 

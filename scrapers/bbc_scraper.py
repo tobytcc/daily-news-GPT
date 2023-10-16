@@ -13,7 +13,6 @@ class BBCArticleScraper(ArticleScraper):
     def _get_top_news_from_soup(
         self, section_soup: BeautifulSoup, limit: int
     ) -> list[dict[str, str]]:
-        # pylint: disable = duplicate-code
         extracts = section_soup.find_all(attrs=self.sections_config["attrs"])
 
         headline_list: list[dict[str, str]] = []
@@ -38,14 +37,14 @@ class BBCArticleScraper(ArticleScraper):
 
         return headline_list
 
-    def _get_paragraphs_from_soup(
-        self, article_soup: BeautifulSoup, attrs_dict: dict[str, str]
-    ) -> list[str]:
+    def _get_paragraphs_from_soup(self, article_soup: BeautifulSoup) -> list[str]:
         paragraph_list = []
 
         article_content = article_soup.find(name="article")
         if isinstance(article_content, Tag):
-            article_text_blocks = article_content.find_all(name="div", attrs=attrs_dict)
+            article_text_blocks = article_content.find_all(
+                name="div", attrs=self.article_config["attrs"]
+            )
 
             for text_block in article_text_blocks:
                 if isinstance(text_block, Tag):
