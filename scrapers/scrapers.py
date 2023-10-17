@@ -145,7 +145,7 @@ class ArticleScraper(ABC):
         e.g. ["news", world"] is a valid category for bbc because we can parse
         bbc.com/news/world
 
-        ap website has this overloaded
+        ap website has this overloaded with minor changes
         """
         category_search = self.category_config
 
