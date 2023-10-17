@@ -1,4 +1,7 @@
-"""bbc scraper class"""
+"""
+bbc website scraper class, inherit from general article scraper
+"""
+
 from bs4 import BeautifulSoup, Tag
 
 from scrapers.scrapers import ArticleScraper
@@ -10,42 +13,29 @@ class BBCArticleScraper(ArticleScraper):
     CONFIG_FILE = "config/bbc_config.yaml"
     SITE_NAME = "BBC"
 
-    def _get_top_news_from_soup(
-        self, section_soup: BeautifulSoup, limit: int
-    ) -> list[dict[str, str]]:
-        # pylint: disable = duplicate-code
-        extracts = section_soup.find_all(attrs=self.sections_config["attrs"])
+    def _get_headline_from_tag(self, headline_tag: Tag) -> list[dict[str, str]]:
+        # seem to have href attribute as its 1st level parents
+        parent = headline_tag.find_parent()
 
-        headline_list: list[dict[str, str]] = []
-        for extract in extracts:
-            if len(headline_list) >= limit:
-                return headline_list
+        if parent and parent.name == "a" and "href" in parent.attrs:
+            href = parent.attrs["href"]
 
-            # seem to have href attribute as its 1st level parents
-            parent = extract.find_parent()
+            # filter out live article, as I don't know how to scrape it yet
+            if "live" in href.split("/"):
+                return []
 
-            if parent and parent.name == "a" and "href" in parent.attrs:
-                href = parent.attrs["href"]
+            return [{"title": headline_tag.text.strip(), "path": href}]
 
-                if "live" in href.split(
-                    "/"
-                ):  # filter out live article, as I don't know how to scrape it
-                    continue
+        return []
 
-                headline = {"title": extract.text.strip(), "path": href}
-                if headline not in headline_list:
-                    headline_list.append(headline)
-
-        return headline_list
-
-    def _get_paragraphs_from_soup(
-        self, article_soup: BeautifulSoup, attrs_dict: dict[str, str]
-    ) -> list[str]:
+    def _get_paragraphs_from_soup(self, article_soup: BeautifulSoup) -> list[str]:
         paragraph_list = []
 
         article_content = article_soup.find(name="article")
         if isinstance(article_content, Tag):
-            article_text_blocks = article_content.find_all(name="div", attrs=attrs_dict)
+            article_text_blocks = article_content.find_all(
+                name="div", attrs=self.article_config["attrs"]
+            )
 
             for text_block in article_text_blocks:
                 if isinstance(text_block, Tag):
