@@ -18,7 +18,7 @@ def make_request(url: str) -> BeautifulSoup:
     helper function for all scrapers to make a request and return a bs4 obj.
     if status_code != 200, raise connection error
     """
-    response = requests.get(url, timeout=5)
+    response = requests.get(url, timeout=20)
     if response.status_code != 200:
         raise HTTPConnectionError(
             f"Failed to connect to {url}. Status code: {response.status_code}"

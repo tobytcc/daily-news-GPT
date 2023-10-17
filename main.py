@@ -14,7 +14,7 @@ from scrapers.abc_scraper import ABCArticleScraper
 
 from helper import parse_categories
 
-test = BBCArticleScraper()  # choose your scraper
+test = ABCArticleScraper()  # choose your scraper
 
 # this parse_categories function is used to test if all categories in the yaml configs are valid
 # it returns a list, each element being a category constructed from config file
