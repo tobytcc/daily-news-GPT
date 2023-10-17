@@ -43,6 +43,7 @@ class ArticleScraper(ABC):
         self.sections_config = self._get_section_config()
         self.article_config = self._get_article_config()
         self.category_config = self._get_categories_config()
+        self.aliases = self._config.get("aliases")
         self.base_url = self._get_base_url()
 
         self.aliases = self._config.get("aliases")

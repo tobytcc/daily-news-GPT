@@ -1,7 +1,6 @@
 """
 abc website scraper class, inherit from general article scraper
 """
-
 from bs4 import BeautifulSoup, Tag
 
 from scrapers.scrapers import ArticleScraper
