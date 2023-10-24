@@ -54,8 +54,9 @@ with open("articles.csv", 'a') as f:
                 print(article)
                 field = "_".join([site, cat])
                 new_row = [current_time, field, article.title, article.text]
+                
                 # Writing into file
-                writer_object.writerow(new_row)
+                # writer_object.writerow(new_row)
 
 
 f.close()
