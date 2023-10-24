@@ -1,0 +1,11 @@
+base_url: https://www.reuters.com/
+
+sections:
+  world:
+    url: https://www.reuters.com/world/
+    attrs:
+      class: "PagePromoContentIcons-text"
+
+article:
+  attrs:
+    data-component: "text-block"
