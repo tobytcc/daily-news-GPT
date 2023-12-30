@@ -1,0 +1,21 @@
+base_url: https://abcnews.go.com/
+
+sections:
+  attrs:
+    class: "News__title"
+
+categories:
+  us: null
+  international: null
+  business: null
+  lifestyle: null
+  politics: null
+  entertainment: null
+  technology: null
+  health: null
+
+aliases:
+
+article:
+  attrs:
+    data-testid: "prism-article-body"

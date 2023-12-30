@@ -1,0 +1,21 @@
+base_url: https://www.cnn.com/
+
+sections:
+  attrs:
+    data-editable: "headline"
+
+categories:
+  us: null
+  world: null
+  politics: null
+  business: null
+  opinion: null
+  health: null
+  entertainment: null
+  style: null
+  travel: null
+  sport: null
+
+article:
+  attrs:
+    class: "article__content"

@@ -1,0 +1,34 @@
+base_url: https://apnews.com/
+
+sections:
+  attrs:
+    class: "PagePromoContentIcons-text"
+
+categories:
+  us-news: null
+  world-news: null
+  politics: null
+  entertainment: null
+  sports: null
+  business: null
+  science: null
+  ap-fact-check: null
+  climate-and-environment: null
+  health: null
+  oddities: null
+  technology: null
+  hub:
+    artificial-intelligence: null
+  social-media: null
+  lifestyle: null
+  religion: null
+
+aliases:
+  AI: artificial-intelligence
+  climate: climate-and-environment
+  US: us-news
+  world: world-news
+
+article:
+  attrs:
+    class: "RichTextStoryBody RichTextBody"
